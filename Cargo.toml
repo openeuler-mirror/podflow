@@ -73,3 +73,12 @@ nri-grpc = ["tonic", "prost", "tokio-stream"]
 k8s-integration = ["k8s-openapi", "kube", "kube-derive"]
 security-audit = []
 api = []
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+
+[[bench]]
+name = "performance_benchmarks"
+harness = false
