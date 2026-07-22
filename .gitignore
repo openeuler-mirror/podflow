@@ -1,0 +1,42 @@
+.vscode/
+target/
+
+# Rust
+**/*.rs.bk
+*.pdb
+
+# Cargo
+Cargo.lock
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Build artifacts
+*.o
+*.so
+*.dylib
+*.dll
+*.a
+
+# Coverage
+tarpaulin-report.html
+coverage/
+*.profraw
+*.profdata
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+/tmp/
+*.tmp
+*.bak
