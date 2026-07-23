@@ -40,6 +40,8 @@ thiserror = "=1.0.58"
 
 # High-performance concurrent data structures
 dashmap = "=5.5"
+# moka disabled due to Rust 1.82 requirement, enable after upgrade to Rust 1.85+
+# moka = { version = "=0.12", features = ["future"] }
 
 # Embedded database for persistence
 sled = "=0.34.7"
@@ -67,11 +69,22 @@ tower = { version = "0.4", features = ["util"] }
 [build-dependencies]
 tonic-build = "0.12"
 
+[dev-dependencies]
+tower = { version = "=0.4.13", features = ["util"] }
+axum = { version = "0.7", features = ["macros"] }
+serde_json = "1.0"
+tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
+criterion = { version = "0.5", features = ["html_reports"] }
+
 [features]
 default = []
+# Standard NRI protocol support for containerd integration
 nri-grpc = ["tonic", "prost", "tokio-stream"]
+# Kubernetes integration for E2E testing
 k8s-integration = ["k8s-openapi", "kube", "kube-derive"]
+# Security audit tests
 security-audit = []
+# API support (axum integration)
 api = []
 
 [profile.release]
