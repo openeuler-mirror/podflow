@@ -36,6 +36,24 @@ fn print_version() {
     println!("{} v{}", NAME, VERSION);
 }
 
+/// Initialize the tracing subscriber for the main server binary.
+///
+/// The log level is read from the `RUST_LOG` environment variable and
+/// falls back to `info` if unset. Timestamps and target modules are
+/// included to help with production troubleshooting.
+fn init_logging() {
+    let filter = tracing_subscriber::EnvFilter::try_from_default_env()
+        .unwrap_or_else(|_| tracing_subscriber::EnvFilter::new("info"));
+
+    tracing_subscriber::fmt()
+        .with_env_filter(filter)
+        .with_target(true)
+        .with_thread_ids(false)
+        .with_line_number(false)
+        .with_level(true)
+        .init();
+}
+
 #[tokio::main]
 async fn main() {
     // Parse command-line arguments
@@ -55,15 +73,9 @@ async fn main() {
         }
     }
 
-    // Initialize tracing subscriber for logging
-    tracing_subscriber::fmt()
-        .with_env_filter(
-            tracing_subscriber::EnvFilter::try_from_default_env()
-                .unwrap_or_else(|_| tracing_subscriber::EnvFilter::new("info")),
-        )
-        .init();
+    init_logging();
 
-    tracing::info!("PodFlow starting up...");
+    tracing::info!("PodFlow {} starting up...", VERSION);
 
     // TODO: Initialize runtime and start server
     eprintln!("Server mode not yet implemented. Use --help for usage.");
